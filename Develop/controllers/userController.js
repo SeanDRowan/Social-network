@@ -1,19 +1,20 @@
-const { Course, Student } = require('../models');
+const  User = require('../models/user');
+
 
 module.exports = {
   // Get all courses
-  async getCourses(req, res) {
+  async getUsers(req, res) {
     try {
-      const courses = await Course.find();
-      res.json(courses);
+      const user = await User.find();
+      res.json(user);
     } catch (err) {
       res.status(500).json(err);
     }
   },
   // Get a course
-  async getSingleCourse(req, res) {
+  async getSingleUser(req, res) {
     try {
-      const course = await Course.findOne({ _id: req.params.courseId })
+      const course = await User.findOne({ _id: req.params._id })
         .select('-__v');
 
       if (!course) {
@@ -26,19 +27,19 @@ module.exports = {
     }
   },
   // Create a course
-  async createCourse(req, res) {
+  async createUser(req, res) {
     try {
-      const course = await Course.create(req.body);
-      res.json(course);
+      const newUser = await User.create(req.body);
+      res.json(newUser);
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
     }
   },
   // Delete a course
-  async deleteCourse(req, res) {
+  async deleteUser(req, res) {
     try {
-      const course = await Course.findOneAndDelete({ _id: req.params.courseId });
+      const course = await User.findOneAndDelete({ _id: req.params._id });
 
       if (!course) {
         return res.status(404).json({ message: 'No course with that ID' });
@@ -51,10 +52,10 @@ module.exports = {
     }
   },
   // Update a course
-  async updateCourse(req, res) {
+  async updateUser(req, res) {
     try {
-      const course = await Course.findOneAndUpdate(
-        { _id: req.params.courseId },
+      const course = await User.findOneAndUpdate(
+        { _id: req.params._id },
         { $set: req.body },
         { runValidators: true, new: true }
       );
