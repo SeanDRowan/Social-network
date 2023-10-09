@@ -1,4 +1,4 @@
-const { Schema, Types } = require('mongoose');
+const { Schema, Types, model } = require('mongoose');
 
 const reactionSchema = new Schema({
 reactionId: {type: Schema.Types.ObjectId,
@@ -14,10 +14,10 @@ createdAt: {
 
 const thoughtSchema = new Schema(
   {
-    assignmentId: {
+    /*assignmentId: {
       type: Schema.Types.ObjectId,
       default: () => new Types.ObjectId(),
-    },
+    },*/
     thoughtText: {
       type: String,
       required: true,
@@ -36,16 +36,18 @@ const thoughtSchema = new Schema(
      reactions:[reactionSchema]
     
   },
-  thoughtSchema.virtual('reactionCount').get(function () {
-    return ` ${counter} people have reacted`;
-  })
+
   
-  .set(function(v){
-   counter = reactionSchema.length
-    this.set({counter})
-  })
+
 );
 
-const thought = model('Thought', thoughtSchema);
+const Thought = model('thought', thoughtSchema);
+thoughtSchema.virtual('reactionCount').get(function () {
+  return ` ${counter} people have reacted`;
+})
+.set(function(v){
+  counter = reactionSchema.length
+   this.set({counter})
+ })
 
-module.exports = thought;
+module.exports = Thought;

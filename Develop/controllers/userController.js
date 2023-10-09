@@ -1,8 +1,9 @@
+const { Thought } = require('../models');
 const  User = require('../models/user');
 
 
 module.exports = {
-  // Get all courses
+  // Get all users
   async getUsers(req, res) {
     try {
       const user = await User.find();
@@ -11,22 +12,24 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // Get a course
+  // Get a user
   async getSingleUser(req, res) {
     try {
-      const course = await User.findOne({ _id: req.params._id })
+      const user = await User.findOne({ _id: req.params._id})
         .select('-__v');
-
-      if (!course) {
-        return res.status(404).json({ message: 'No course with that ID' });
+        
+      if (!user) {
+        return res.status(404).json({ message: 'No user with that ID' });
       }
-
-      res.json(course);
+   
+    
+      res.json({user}
+       );
     } catch (err) {
       res.status(500).json(err);
     }
   },
-  // Create a course
+  // Create a user
   async createUser(req, res) {
     try {
       const newUser = await User.create(req.body);
@@ -36,7 +39,7 @@ module.exports = {
       return res.status(500).json(err);
     }
   },
-  // Delete a course
+  // Delete a user
   async deleteUser(req, res) {
     try {
       const course = await User.findOneAndDelete({ _id: req.params._id });
@@ -44,9 +47,9 @@ module.exports = {
       if (!course) {
         return res.status(404).json({ message: 'No course with that ID' });
       }
-
-      await Student.deleteMany({ _id: { $in: course.students } });
-      res.json({ message: 'Course and students deleted!' });
+      return res.json('user deleted')
+      /*await Student.deleteMany({ _id: { $in: course.students } });
+      res.json({ message: 'Course and students deleted!' });*/
     } catch (err) {
       res.status(500).json(err);
     }
