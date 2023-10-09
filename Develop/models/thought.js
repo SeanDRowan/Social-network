@@ -14,10 +14,6 @@ createdAt: {
 
 const thoughtSchema = new Schema(
   {
-    /*assignmentId: {
-      type: Schema.Types.ObjectId,
-      default: () => new Types.ObjectId(),
-    },*/
     thoughtText: {
       type: String,
       required: true,
