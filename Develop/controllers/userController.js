@@ -19,12 +19,9 @@ module.exports = {
       .populate({ path: 'thoughts', select: '-__v' })
       .populate({path:'friends'});
        
-        
       if (!user) {
         return res.status(404).json({ message: 'No user with that ID' });
       }
-   
-    
       res.json(user,
        );
     } catch (err) {
@@ -41,35 +38,35 @@ module.exports = {
       return res.status(500).json(err);
     }
   },
-  // Delete a user
+  // Delete a user + associated thoughts
   async deleteUser(req, res) {
     try {
-      const course = await User.findOneAndDelete({ _id: req.params._id });
+      const user = await User.findOneAndDelete({ _id: req.params._id });
 
-      if (!course) {
+      if (!user) {
         return res.status(404).json({ message: 'No course with that ID' });
       }
-      return res.json('user deleted')
-      /*await Student.deleteMany({ _id: { $in: course.students } });
-      res.json({ message: 'Course and students deleted!' });*/
+     
+      await Thought.deleteMany({ _id: { $in: user.thoughts } });
+      return res.json({ message: 'User and thoughts deleted!' });
     } catch (err) {
       res.status(500).json(err);
     }
   },
-  // Update a course
+  // Update a user
   async updateUser(req, res) {
     try {
-      const course = await User.findOneAndUpdate(
+      const user = await User.findOneAndUpdate(
         { _id: req.params._id },
         { $set: req.body },
         { runValidators: true, new: true }
       );
 
-      if (!course) {
-        return res.status(404).json({ message: 'No course with this id!' });
+      if (!user) {
+        return res.status(404).json({ message: 'No user with this id!' });
       }
 
-      res.json(course);
+      res.json(user);
     } catch (err) {
       res.status(500).json(err);
     }

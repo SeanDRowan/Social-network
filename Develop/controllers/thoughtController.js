@@ -1,5 +1,4 @@
-// ObjectId() method for converting studentId string into an ObjectId for querying database
-const  ObjectId  = require('mongoose').Types;
+
 const  Thought  = require('../models/thought');
 const  User = require('../models/user');
 
@@ -18,11 +17,9 @@ module.exports = {
     try {
       const thought = await Thought.findOne({ _id: req.params._id })
         .select('-__v');
-
       if (!thought) {
         return res.status(404).json({ message: 'No course with that ID' });
       }
-
       res.json(thought);
     } catch (err) {
       res.status(500).json(err);
@@ -57,8 +54,6 @@ module.exports = {
         return res.status(404).json({ message: 'No thought with that ID' });
       }
   res.json('thought deleted')
-      /*await Student.deleteMany({ _id: { $in: course.students } });
-      res.json({ message: 'Course and students deleted!' });*/
     } catch (err) {
       res.status(500).json(err);
     }
