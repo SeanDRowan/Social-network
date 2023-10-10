@@ -106,4 +106,6 @@ module.exports = {
     }
     res.json(reaction)
   
-}catch(err) {res.status(500).json(err)}}};
+}catch(err) {res.status(500).json(err)}}
+
+};
